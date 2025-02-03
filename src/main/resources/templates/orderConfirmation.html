@@ -1,0 +1,11 @@
+<h1>Order Confirmation</h1>
+
+<p>Porosia juaj u krye!</p>
+
+<h3>Order Summary:</h3>
+<ul>
+    <li th:each="productName : ${order.productName}" th:text="${productName}"></li>
+</ul>
+<p>Shuma Totale: $<span th:text="${order.totalAmount}"></span></p>
+<p>Adresa: <span th:text="${order.address}"></span></p>
+<p>Numer telefoni: <span th:text="${order.phoneNumber}"></span></p>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista e Produkteve</title>
+</head>
+<body>
+
+<h1>Lista e Produkteve</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Emri</th>
+    <th>Përshkrimi</th>
+    <th>Çmimi</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="product : ${products}">
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.description}"></td>
+    <td th:text="${product.price}"></td>
+    <td>
+
+      <form th:action="@{/products/del/{id}(id=${product.id})}" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

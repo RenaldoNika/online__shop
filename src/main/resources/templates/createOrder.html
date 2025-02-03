@@ -1,0 +1,24 @@
+<h1>Checkout</h1>
+
+<div>
+    <h3>Perfundo Porosin</h3>
+    <ul>
+        <li th:each="productName : ${productNames}" th:text="${productName}"></li>
+    </ul>
+    <p>Total Amount: $<span th:text="${totalAmount}"></span></p>
+</div>
+
+<form th:action="@{/order/orderCheck}" method="post">
+
+    <div>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+    </div>
+
+    <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required>
+    </div>
+
+    <button class="checkout-btn" type="submit">Proceed to Checkout</button>
+</form>
