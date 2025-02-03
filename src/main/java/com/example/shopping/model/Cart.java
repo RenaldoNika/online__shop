@@ -1,6 +1,5 @@
 package com.example.shopping.model;
 
-import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,25 +7,20 @@ import java.util.List;
 public class Cart {
 
 
-    private String brand;
-
     private double price;
 
-    List<Product> products=new ArrayList<>();
+    List<Product> products = new ArrayList<>();
 
     double totalPrice = 0;
 
+    double pricePerProduct = 0;
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public void removeProduct(long productId) {
         products.removeIf(product -> product.getId() == productId);
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
     }
 
     public double getPrice() {
@@ -46,17 +40,17 @@ public class Cart {
     }
 
     public double getTotalPrice() {
-       double shume = products.stream().map(Product::getPrice).reduce(0.0, Double::sum);
-       return totalPrice + shume;
+        double shume = products.stream().map(Product::getPrice).reduce(0.0, Double::sum);
+
+        return totalPrice + shume;
     }
 
-
+    public void clearProducts() {
+        products.clear();
+    }
 
     public void addProduct(Product product) {
         products.add(product);
     }
-
-
-
 
 }

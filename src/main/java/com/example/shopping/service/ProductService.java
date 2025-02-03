@@ -1,6 +1,7 @@
 package com.example.shopping.service;
 
 
+import com.example.shopping.model.Product;
 import com.example.shopping.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
+    }
 
     
 }

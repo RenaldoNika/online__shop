@@ -1,11 +1,10 @@
 package com.example.shopping.model;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -17,15 +16,33 @@ public class Order {
     private String phoneNumber;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany
-    private List<Product> products=new ArrayList<>();
+    private String status;
 
-
-
+    @ElementCollection
+    @CollectionTable(name = "order_product_names", joinColumns = @JoinColumn(name = "order_id"))
+    @Column(name = "product_name")
+    private List<String> productName;
 
     private double totalAmount;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<String> getProductName() {
+        return productName;
+    }
+
+    public void setProductName(List<String> productName) {
+        this.productName = productName;
+    }
 
     public long getId() {
         return id;
@@ -57,14 +74,6 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public double getTotalAmount() {

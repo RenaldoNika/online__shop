@@ -28,15 +28,15 @@ public class CartController {
                           HttpSession session) {
         Product product = productRepository.findById(productId).orElse(null);
 
+        int sasi = product.getAmount();
+        double price = product.getPrice();
         if (product != null) {
-
             Cart cart = (Cart) session.getAttribute("cart");
-
             if (cart == null) {
                 cart = new Cart();
             }
-            cart.addProduct(product);
 
+            cart.addProduct(product);
             session.setAttribute("cart", cart);
         }
         return "redirect:/shop/online";
@@ -51,6 +51,7 @@ public class CartController {
             cart = new Cart();
         }
 
+        model.addAttribute("shumProdukt",cart.getTotalPrice());
         model.addAttribute("cart", cart);
         return "cart";
     }

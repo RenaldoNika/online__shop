@@ -17,10 +17,17 @@ public class User {
 
     private Role role;
 
-
     @OneToMany(mappedBy = "user")
     private List<Order>orderList=new ArrayList<>();
 
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
 
     public long getId() {
         return id;

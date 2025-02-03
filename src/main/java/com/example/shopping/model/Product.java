@@ -20,6 +20,15 @@ public class Product {
 
     private String imageUrl;
 
+    private int amount=1;
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
 
     public long getId() {
         return id;
