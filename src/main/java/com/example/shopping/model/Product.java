@@ -1,12 +1,11 @@
 package com.example.shopping.model;
 
 
+import com.example.shopping.model.enumRole.CategoryProduct;
 import jakarta.persistence.*;
-
 
 @Entity
 public class Product {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +19,17 @@ public class Product {
 
     private String imageUrl;
 
-    private int amount=1;
+    private int amount = 1;
+
+    private CategoryProduct category;
+
+    public void setCategory(CategoryProduct category) {
+        this.category = category;
+    }
+
+    public CategoryProduct getCategory() {
+        return category;
+    }
 
     public void setAmount(int amount) {
         this.amount = amount;

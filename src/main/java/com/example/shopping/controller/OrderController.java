@@ -4,6 +4,7 @@ import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
 import com.example.shopping.repository.OrderRepository;
+import com.example.shopping.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,16 +21,16 @@ import java.util.stream.Collectors;
 public class OrderController {
 
 
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @GetMapping("/cart")
     public String viewCart(Model model) {
-        List<Order> orderList = orderRepository.findAll();
+        List<Order> orderList = orderService.findAll();
         model.addAttribute("cart", orderList);
         return "cart";
     }
@@ -83,7 +84,7 @@ public class OrderController {
         order.setPhoneNumber(phoneNumber);
 
         double amountOrder = order.getTotalAmount();
-        orderRepository.save(order);
+        orderService.save(order);
 
         cart.clearProducts();
 

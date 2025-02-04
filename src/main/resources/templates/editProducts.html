@@ -21,6 +21,7 @@
     <td th:text="${product.name}"></td>
     <td th:text="${product.description}"></td>
     <td th:text="${product.price}"></td>
+    <td th:text="${product.category}"></td>
     <td>
 
       <form th:action="@{/products/del/{id}(id=${product.id})}" method="post">

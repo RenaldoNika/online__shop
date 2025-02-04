@@ -17,6 +17,7 @@
             margin: 0 auto;
             padding-top: 50px;
             padding-bottom: 50px;
+            position: relative;
         }
 
         h1 {
@@ -24,20 +25,25 @@
             color: #333;
         }
 
-        /* Flex container for products */
+        .category-select {
+            position: relative;
+            top: -20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
         .product-container {
             display: flex;
-            flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+            flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
 
-        /* Individual product card */
         .product {
             background-color: #fff;
             border-radius: 8px;
             padding: 20px;
-            width: calc(33.333% - 20px); /* Three products per row */
+            width: calc(33.333% - 20px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             transition: transform 0.3s;
@@ -57,14 +63,13 @@
             color: #555;
         }
 
-        .price {
+        {
             font-size: 18px;
             font-weight: bold;
             color: #FF6347;
         }
 
-        /* Quantity input styling */
-        .quantity {
+       {
             width: 50px;
             padding: 5px;
             margin-top: 10px;
@@ -90,14 +95,15 @@
 
         /* Cart link */
         .go-to-cart-btn {
-            display: inline-block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
             text-align: center;
             background-color: #FF6347;
             color: white;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 30px;
         }
 
         .go-to-cart-btn:hover {
@@ -111,8 +117,21 @@
 <div class="container">
     <h1>Our Products</h1>
 
+
+    <div class="category-select">
+        <form action="/products/category" method="get">
+            <select name="category" onchange="this.form.submit()">
+                <option value="">Select Category</option>
+                <option value="PHONE">Phones</option>
+                <option value="COMPUTER">Computers</option>
+                <option value="AIRCONDITIONER">Air Conditioners</option>
+            </select>
+        </form>
+    </div>
+
     <div class="product-container">
         <div th:each="product : ${products}" class="product">
+            <img th:src="@{'/uploads/' + ${product.imageUrl}}" alt="Foto e produktit" width="200" />
             <h2 th:text="${product.name}"></h2>
             <p th:text="${product.description}"></p>
             <p><strong>Cmimi:</strong> <span th:text="${product.price}"></span></p>

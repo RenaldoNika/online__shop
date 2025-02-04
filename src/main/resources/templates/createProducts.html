@@ -43,7 +43,9 @@
 
         input[type="text"],
         input[type="number"],
-        textarea {
+        textarea,
+        select,
+        input[type="file"] {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -74,7 +76,8 @@
 
         input[type="text"]:focus,
         input[type="number"]:focus,
-        textarea:focus {
+        textarea:focus,
+        select:focus {
             border-color: #4CAF50;
             outline: none;
         }
@@ -85,13 +88,17 @@
 <h2>Create a New Product</h2>
 
 <form action="/products/edit" method="get">
-    <button type="submit">Shiko të gjitha produktet</button>
+    <button type="submit">View All Products</button>
 </form>
 
-<form action="/products/post" method="post" th:object="${product}">
+<form action="/products/post" method="post" th:object="${product}" enctype="multipart/form-data">
     <div>
         <label for="name">Product Name:</label>
         <input type="text" id="name" name="name" required />
+    </div>
+    <div>
+        <label for="imageUrl">Product Image:</label>
+        <input type="file" id="imageUrl" name="file" required />
     </div>
     <div>
         <label for="description">Description:</label>
@@ -103,9 +110,14 @@
     </div>
 
     <div>
-        <label for="imageUrl">Image URL:</label>
-        <input type="text" id="imageUrl" name="imageUrl" />
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="PHONE">Phone</option>
+            <option value="COMPUTER">Computer</option>
+            <option value="AIRCONDITIONER">Air Conditioners</option>
+        </select>
     </div>
+
     <div>
         <button type="submit">Create Product</button>
     </div>

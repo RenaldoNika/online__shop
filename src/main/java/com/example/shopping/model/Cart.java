@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Cart {
 
-
     private double price;
 
     List<Product> products = new ArrayList<>();

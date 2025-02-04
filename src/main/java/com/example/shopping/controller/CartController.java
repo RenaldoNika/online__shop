@@ -1,6 +1,5 @@
 package com.example.shopping.controller;
 
-
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Product;
 import com.example.shopping.repository.ProductRepository;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cart")
 public class CartController {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public CartController(ProductRepository productRepository) {
@@ -28,8 +27,6 @@ public class CartController {
                           HttpSession session) {
         Product product = productRepository.findById(productId).orElse(null);
 
-        int sasi = product.getAmount();
-        double price = product.getPrice();
         if (product != null) {
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
