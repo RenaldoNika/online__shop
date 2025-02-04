@@ -1,5 +1,6 @@
 package com.example.shopping.model;
 
+import com.example.shopping.model.enumRole.StatusOrder;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String status;
+    private StatusOrder statusOrder;
 
     @ElementCollection
     @CollectionTable(name = "order_product_names", joinColumns = @JoinColumn(name = "order_id"))
@@ -28,12 +29,12 @@ public class Order {
 
     private double totalAmount;
 
-    public String getStatus() {
-        return status;
+    public void setStatusOrder(StatusOrder statusOrder) {
+        this.statusOrder = statusOrder;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public StatusOrder getStatusOrder() {
+        return statusOrder;
     }
 
     public List<String> getProductName() {

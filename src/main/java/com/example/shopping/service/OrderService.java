@@ -3,6 +3,7 @@ package com.example.shopping.service;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
+import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,20 @@ public class OrderService {
     public Order findById(long id) {
         return orderRepository.findById(id).get();
     }
+
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
+
     public void delete(long id) {
         orderRepository.deleteById(id);
+    }
+
+    public Order setStatus(long id, String status) {
+        Order order = orderRepository.findById(id).get();
+        StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
+        order.setStatusOrder(statusOrder);
+        return orderRepository.save(order);
     }
 
 

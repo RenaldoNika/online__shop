@@ -6,6 +6,7 @@ import com.example.shopping.model.enumRole.CategoryProduct;
 import com.example.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
     public Product save(Product product) {
         return productRepository.save(product);
     }
@@ -34,8 +36,9 @@ public class ProductService {
     public List<Product> getByCategory(CategoryProduct categoryProduct) {
         return productRepository.findByCategory(categoryProduct);
     }
-public List<Product>getAllProducts() {
+
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
-}
+    }
 
 }

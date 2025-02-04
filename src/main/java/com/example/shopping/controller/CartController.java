@@ -24,15 +24,14 @@ public class CartController {
 
     @PostMapping("/add")
     public String addCart(@RequestParam("productId") Long productId,
+                          @RequestParam(value = "category", required = false) String category,
                           HttpSession session) {
         Product product = productRepository.findById(productId).orElse(null);
-
         if (product != null) {
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
                 cart = new Cart();
             }
-
             cart.addProduct(product);
             session.setAttribute("cart", cart);
         }
@@ -48,7 +47,7 @@ public class CartController {
             cart = new Cart();
         }
 
-        model.addAttribute("shumProdukt",cart.getTotalPrice());
+        model.addAttribute("shumProdukt", cart.getTotalPrice());
         model.addAttribute("cart", cart);
         return "cart";
     }
