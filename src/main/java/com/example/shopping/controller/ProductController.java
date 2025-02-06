@@ -42,7 +42,6 @@ public class ProductController {
         return "editProducts";
     }
 
-
     @PostMapping("/post")
     public String post(@ModelAttribute Product product,
                        @RequestParam("file")MultipartFile file) {
@@ -64,11 +63,23 @@ public class ProductController {
         return "redirect:/products/add";
     }
 
-
     @PostMapping("/del/{productId}")
     public String delete(@PathVariable long productId) {
         Product product = productService.findById(productId);
         productService.deleteProduct(product);
+        return "redirect:/products/edit";
+    }
+
+    @GetMapping("/update")
+    public String update(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "updateProduct";
+
+    }
+
+    @PostMapping("update/{id}")
+    public String update(@PathVariable long id,Product product) {
+        productService.editProduct(id, product);
         return "redirect:/products/edit";
     }
 

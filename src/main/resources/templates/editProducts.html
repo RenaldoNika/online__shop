@@ -14,6 +14,7 @@
     <th>Emri</th>
     <th>Përshkrimi</th>
     <th>Çmimi</th>
+    <th>Kategoria</th>
   </tr>
   </thead>
   <tbody>
@@ -23,13 +24,18 @@
     <td th:text="${product.price}"></td>
     <td th:text="${product.category}"></td>
     <td>
-
       <form th:action="@{/products/del/{id}(id=${product.id})}" method="post">
         <input type="hidden" name="_method" value="delete"/>
         <button type="submit">Delete</button>
       </form>
     </td>
   </tr>
+
+  <td>
+    <form th:action="@{/products/update}" method="get">
+      <button type="submit">Update</button>
+    </form>
+  </td>
   </tbody>
 </table>
 

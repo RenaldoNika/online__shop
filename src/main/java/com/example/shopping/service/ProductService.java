@@ -41,4 +41,14 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Product editProduct(long id, Product product) {
+        Product productFind = productRepository.findById(id).get();
+        productFind.setName(product.getName());
+        productFind.setDescription(product.getDescription());
+        productFind.setCategory(product.getCategory());
+        productFind.setPrice(product.getPrice());
+        return productRepository.save(productFind);
+
+    }
+
 }
