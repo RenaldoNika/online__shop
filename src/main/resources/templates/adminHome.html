@@ -3,27 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fafafa;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product h2 {
+            margin: 0 15px 0 0;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .status-option {
+            background-color: yellow;
+        }
+    </style>
 </head>
 <body>
 
-<div th:each="order : ${orders}" class="product">
-    <h2 th:text="${order.address}"></h2>
-    <h2 th:text="${order.phoneNumber}"></h2>
-    <h2 th:text="${order.statusOrder}"></h2>
-    <h2 th:text="${order.totalAmount}"></h2>
+<div class="container">
+    <div th:each="order : ${orders}" class="product">
+        <div>
+            <h2 th:text="${order.address}"></h2>
+            <h2 th:text="${order.phoneNumber}"></h2>
+            <h2 th:text="${order.statusOrder}"></h2>
+            <h2 th:text="${order.totalAmount}"></h2>
+        </div>
 
-    <form action="/order/status" method="post">
-        <input type="hidden" name="id" th:value="${order.id}"/>
+        <form action="/order/status" method="post">
+            <input type="hidden" name="id" th:value="${order.id}"/>
 
-        <select name="status">
-            <option value=""></option>
-            <option value="PRITJE" th:value="PRITJE" th:selected="${order.statusOrder == 'PRITJE'}">PRITJE</option>
-            <option value="KONFIMUAR" th:value="KONFIMUAR" th:selected="${order.statusOrder == 'KONFIMUAR'}" style="background-color: yellow;">KONFIMUAR</option>
-        </select>
+            <select name="status">
+                <option value=""></option>
+                <option value="PRITJE" th:value="PRITJE" th:selected="${order.statusOrder == 'PRITJE'}">PRITJE</option>
+                <option value="KONFIMUAR" th:value="KONFIMUAR" th:selected="${order.statusOrder == 'KONFIMUAR'}" class="status-option">KONFIMUAR</option>
+            </select>
 
-
-        <button type="submit">Ndrysho Statusin</button>
-    </form>
+            <button type="submit">Ndrysho Statusin</button>
+        </form>
+    </div>
 </div>
 
 </body>

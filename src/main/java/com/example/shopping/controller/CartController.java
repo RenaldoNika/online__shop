@@ -1,5 +1,6 @@
 package com.example.shopping.controller;
 
+import com.example.shopping.excpetion.ProductException;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Product;
 import com.example.shopping.repository.ProductRepository;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 
 @Controller
 @RequestMapping("/cart")
@@ -31,6 +31,13 @@ public class CartController {
             Cart cart = (Cart) session.getAttribute("cart");
             if (cart == null) {
                 cart = new Cart();
+            }
+            boolean productExists = cart.getProducts().stream()
+                    .anyMatch(existingProduct
+                            -> existingProduct.getId()==(product.getId()));
+
+            if (productExists) {
+                throw new ProductException("Product already exists in the cart");
             }
             cart.addProduct(product);
             session.setAttribute("cart", cart);

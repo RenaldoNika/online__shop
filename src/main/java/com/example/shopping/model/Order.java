@@ -2,6 +2,7 @@ package com.example.shopping.model;
 
 import com.example.shopping.model.enumRole.StatusOrder;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,7 @@ public class Order {
     @ElementCollection
     @CollectionTable(name = "order_product_names", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "product_name")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<String> productName;
 
     private double totalAmount;

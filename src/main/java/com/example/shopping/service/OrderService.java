@@ -5,6 +5,7 @@ import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
 import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    @Transactional
     public void delete(long id) {
         orderRepository.deleteById(id);
     }
