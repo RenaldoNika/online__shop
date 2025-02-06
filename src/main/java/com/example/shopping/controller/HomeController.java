@@ -27,4 +27,5 @@ public class HomeController {
         model.addAttribute("products", productService.getAllProducts());
         return "home";
     }
+
 }

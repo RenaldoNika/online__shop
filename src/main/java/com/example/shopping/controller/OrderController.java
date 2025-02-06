@@ -3,7 +3,7 @@ package com.example.shopping.controller;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
-import com.example.shopping.repository.OrderRepository;
+import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +60,21 @@ public class OrderController {
         return "createOrder";
     }
 
+    @PostMapping("/status")
+    public String status(long id,String status){
+       Order order= orderService.findById(id);
+        StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
+
+       order.setStatusOrder(statusOrder);
+       orderService.save(order);
+       return "redirect:/admin/home";
+    }
+
+    @GetMapping("getOrder")
+    public String viewOrder(Model model) {
+        model.addAttribute("order",orderService.findAll());
+        return "showOrder";
+    }
 
     @PostMapping("/orderCheck")
     public String checkout(HttpSession session,
@@ -85,9 +100,7 @@ public class OrderController {
 
         double amountOrder = order.getTotalAmount();
         orderService.save(order);
-
         cart.clearProducts();
-
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmountOrder", amountOrder);
 

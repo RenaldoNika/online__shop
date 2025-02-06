@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista e Produkteve</title>
+</head>
+<body>
+
+<header>
+    <h1>Përditëso Produktin</h1>
+</header>
+
+<div class="container">
+    <div th:each="product : ${products}" class="product">
+        <form th:action="@{/products/update/{id}(id=${product.id})}" method="post">
+            <label for="name">Emri:</label>
+            <input type="text" id="name" name="name" th:value="${product.name}" required/>
+
+            <label for="description">Përshkrimi:</label>
+            <input type="text" id="description" name="description" th:value="${product.description}" required/>
+
+            <label for="price">Çmimi:</label>
+            <input type="number" id="price" name="price" th:value="${product.price}" required/>
+
+            <label for="category">Kategoria:</label>
+            <input type="text" id="category" name="category" th:value="${product.category}" required/>
+
+            <button type="submit">Ruaj Ndryshimet</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

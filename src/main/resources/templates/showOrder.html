@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="order-details">
+    <h1>Order Details</h1>
+
+    <div class="order-info">
+        <form action="/order/getOrder" method="get">
+            <div th:each="order : ${order}" class="product">
+        <p><strong>Status:</strong> <span th:text="${order.statusOrder}">Order Status</span></p>
+        <p><strong>Product:</strong> <span th:text="${order.productName}">Product Name</span></p>
+        <p><strong>Total Amount:</strong> $<span th:text="${order.totalAmount}">Total Amount</span></p>
+        <p><strong>Address:</strong> <span th:text="${order.address}">Shipping Address</span></p>
+    </div>
+
+    <a href="/shop/online" class="back-button">Back to Orders</a>
+</div>
+</body>
+</html>

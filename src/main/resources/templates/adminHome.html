@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+
+<div th:each="order : ${orders}" class="product">
+    <h2 th:text="${order.address}"></h2>
+    <h2 th:text="${order.phoneNumber}"></h2>
+    <h2 th:text="${order.statusOrder}"></h2>
+    <h2 th:text="${order.totalAmount}"></h2>
+
+    <form action="/order/status" method="post">
+        <input type="hidden" name="id" th:value="${order.id}"/>
+
+        <select name="status">
+            <option value=""></option>
+            <option value="PRITJE" th:value="PRITJE" th:selected="${order.statusOrder == 'PRITJE'}">PRITJE</option>
+            <option value="KONFIMUAR" th:value="KONFIMUAR" th:selected="${order.statusOrder == 'KONFIMUAR'}" style="background-color: yellow;">KONFIMUAR</option>
+        </select>
+
+
+        <button type="submit">Ndrysho Statusin</button>
+    </form>
+</div>
+
+</body>
+</html>
