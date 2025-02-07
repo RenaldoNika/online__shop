@@ -75,10 +75,10 @@
 <div class="container">
     <div th:each="order : ${orders}" class="product">
         <div>
-            <h2 th:text="${order.address}"></h2>
-            <h2 th:text="${order.phoneNumber}"></h2>
-            <h2 th:text="${order.statusOrder}"></h2>
-            <h2 th:text="${order.totalAmount}"></h2>
+            <h2>Adresa: <span th:text="${order.address}"></span></h2>
+            <h2>Numri i Telefonit: <span th:text="${order.phoneNumber}"></span></h2>
+            <h2>Statusi i Porosisë: <span th:text="${order.statusOrder}"></span></h2>
+            <h2>Shuma Totale: <span th:text="${order.totalAmount}"></span></h2>
         </div>
 
         <form action="/order/status" method="post">
@@ -91,6 +91,11 @@
             </select>
 
             <button type="submit">Ndrysho Statusin</button>
+        </form>
+
+        <form  th:action="@{/order/delete/{idOrder}(idOrder=${order.id})}" method="post">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <button type="submit" class="delete-button">Fshi Porosinë</button>
         </form>
     </div>
 </div>

@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +52,6 @@ public class OrderController {
 
         Integer amount=(Integer) session.getAttribute("amount");
 
-
         double totalAmount=cart.getTotalPrice(amount);
 
         model.addAttribute("productNames", productNames);
@@ -67,7 +63,7 @@ public class OrderController {
     @PostMapping("/status")
     public String status(long id,String status){
        Order order= orderService.findById(id);
-        StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
+       StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
 
        order.setStatusOrder(statusOrder);
        orderService.save(order);
@@ -105,7 +101,7 @@ public class OrderController {
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
 
-        double amountOrder = order.getTotalAmount(); //shuma totale qe do ruhet ne porosi
+        double amountOrder = order.getTotalAmount(); //shuma totale qe do ruhet ne order
 
         products.forEach(product -> {
             Integer newAmount = product.getAmount() - amount;
@@ -115,10 +111,17 @@ public class OrderController {
         });
 
         cart.clearProducts();
+        orderService.save(order);
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmountOrder", amountOrder);
 
         return "redirect:/shop/online";
+    }
+
+    @PostMapping("/delete/{idOrder}")
+    public String delete(@PathVariable ("idOrder") long idOrder) {
+        orderService.delete(idOrder);
+        return "redirect:/admin/home";
     }
 
 

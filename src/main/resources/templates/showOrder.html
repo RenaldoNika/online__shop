@@ -4,7 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .order-details {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .order-info {
+            margin-top: 20px;
+        }
+
+        .product {
+            margin-bottom: 15px;
+        }
+
+        .product p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .product strong {
+            color: #333;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 <div class="order-details">
@@ -12,11 +65,13 @@
 
     <div class="order-info">
         <form action="/order/getOrder" method="get">
-            <div th:each="order : ${order}" class="product">
-        <p><strong>Status:</strong> <span th:text="${order.statusOrder}">Order Status</span></p>
-        <p><strong>Product:</strong> <span th:text="${order.productName}">Product Name</span></p>
-        <p><strong>Total Amount:</strong> $<span th:text="${order.totalAmount}">Total Amount</span></p>
-        <p><strong>Address:</strong> <span th:text="${order.address}">Shipping Address</span></p>
+            <div class="product">
+                <p><strong>Status:</strong> <span>Order Status</span></p>
+                <p><strong>Product:</strong> <span>Product Name</span></p>
+                <p><strong>Total Amount:</strong> $<span>Total Amount</span></p>
+                <p><strong>Address:</strong> <span>Shipping Address</span></p>
+            </div>
+        </form>
     </div>
 
     <a href="/shop/online" class="back-button">Back to Home</a>

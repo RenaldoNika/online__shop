@@ -126,15 +126,16 @@
     <h1>Our Products</h1>
 
     <div class="category-select">
-        <form action="/products/category" method="get">
-            <select name="category" onchange="this.form.submit()">
-                <option value="">Select Category</option>
-                <option value="PHONE">Phones</option>
-                <option value="COMPUTER">Computers</option>
-                <option value="AIRCONDITIONER">Air Conditioners</option>
-            </select>
-        </form>
+        <ul>
+            <li><a href="/products/category?category=PHONE">Phones</a></li>
+            <li><a href="/products/category?category=COMPUTER">Computers</a></li>
+            <li><a href="/products/category?category=AIRCONDITIONER">Air Conditioners</a></li>
+            <li><a href="/shop/online">All Products</a></li>
+        </ul>
     </div>
+
+
+
 
     <div class="product-container">
         <div th:each="product : ${products}" class="product">

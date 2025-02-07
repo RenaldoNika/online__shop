@@ -28,7 +28,7 @@ public class CartController {
 
     @PostMapping("/add")
     public String addCart(@RequestParam("productId") Long productId,
-                          @RequestParam("amount") Integer amount,
+                          @RequestParam Integer amount,
                           HttpSession session) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
@@ -44,7 +44,6 @@ public class CartController {
             }
 
             session.setAttribute("amount", amount);
-
 
             cart.setPriceperProduct(amount);
             productService.editProduct(productId, product);
@@ -62,10 +61,13 @@ public class CartController {
         if (cart == null) {
             cart = new Cart();
         }
+
         Integer amount = (Integer) session.getAttribute("amount");
-
-
+        if (amount == null) {
+            amount = 1;
+        }
         cart.setPriceperProduct(amount);
+        model.addAttribute("sasia",amount);
         model.addAttribute("cart", cart);
         model.addAttribute("shmPerProdukt", cart.getPriceProduct());
         model.addAttribute("shumProdukt", cart.getTotalPrice(amount));
