@@ -86,15 +86,18 @@ public class OrderController {
                            @RequestParam("phoneNumber") String phoneNumber,
                            Model model) {
         Order order = new Order();
+
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
             cart = new Cart();
         }
         Integer amount=(Integer) session.getAttribute("amount");
+
         List<Product> products = cart.getProducts();
         List<String> productNames = products.stream()
                 .map(Product::getName)
                 .collect(Collectors.toList());
+
         double totalAmount = cart.getTotalPrice(amount);
 
         order.setProductName(productNames);
@@ -102,8 +105,7 @@ public class OrderController {
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
 
-        double amountOrder = order.getTotalAmount();
-
+        double amountOrder = order.getTotalAmount(); //shuma totale qe do ruhet ne porosi
 
         products.forEach(product -> {
             Integer newAmount = product.getAmount() - amount;
