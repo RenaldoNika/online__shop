@@ -5,6 +5,7 @@ import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
 import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.service.OrderService;
+import com.example.shopping.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,13 @@ public class OrderController {
 
 
     private OrderService orderService;
+    private ProductService productService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService,
+                           ProductService productService) {
         this.orderService = orderService;
+        this.productService = productService;
     }
 
     @GetMapping("/cart")
@@ -49,10 +53,10 @@ public class OrderController {
                 .map(Product::getName)
                 .collect(Collectors.toList());
 
+        Integer amount=(Integer) session.getAttribute("amount");
 
-        double totalAmount = products.stream()
-                .map(Product::getPrice)
-                .reduce(0.0, Double::sum);
+
+        double totalAmount=cart.getTotalPrice(amount);
 
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmount", totalAmount);
@@ -86,12 +90,12 @@ public class OrderController {
         if (cart == null) {
             cart = new Cart();
         }
+        Integer amount=(Integer) session.getAttribute("amount");
         List<Product> products = cart.getProducts();
         List<String> productNames = products.stream()
                 .map(Product::getName)
                 .collect(Collectors.toList());
-        double totalAmount = products.stream().map(Product::getPrice)
-                .reduce(0.0, Double::sum);
+        double totalAmount = cart.getTotalPrice(amount);
 
         order.setProductName(productNames);
         order.setTotalAmount(totalAmount);
@@ -99,7 +103,15 @@ public class OrderController {
         order.setPhoneNumber(phoneNumber);
 
         double amountOrder = order.getTotalAmount();
-        orderService.save(order);
+
+
+        products.forEach(product -> {
+            Integer newAmount = product.getAmount() - amount;
+
+            product.setAmount(newAmount);
+            productService.save(product);
+        });
+
         cart.clearProducts();
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmountOrder", amountOrder);

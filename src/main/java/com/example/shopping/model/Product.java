@@ -19,7 +19,7 @@ public class Product {
 
     private String imageUrl;
 
-    private int amount = 1;
+    private int amount;
 
     private CategoryProduct category;
 

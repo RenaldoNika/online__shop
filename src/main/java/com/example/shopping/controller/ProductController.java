@@ -80,7 +80,7 @@ public class ProductController {
     @PostMapping("update/{id}")
     public String update(@PathVariable long id,Product product) {
         productService.editProduct(id, product);
-        return "redirect:/products/edit";
+        return "redirect:/products/update";
     }
 
     @GetMapping("/category")

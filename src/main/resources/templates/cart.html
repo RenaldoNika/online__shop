@@ -128,7 +128,9 @@
             <h2 th:text="${product.name}"></h2>
             <p th:text="${product.description}"></p>
             <p class="price" th:text="'$' + ${product.price}"></p>
-            <p class="price" th:text="'Sasia: ' + ${product.amount}"></p>
+            <h3>Sasia <p class="price" th:text="'$' + ${product.amount}"></p></h3>
+
+
 
             <form th:action="@{/cart/remove/{id}(id=${product.id})}" method="post">
                 <button type="submit" class="remove-btn">Remove</button>

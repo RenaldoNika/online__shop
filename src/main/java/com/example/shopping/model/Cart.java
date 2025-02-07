@@ -38,11 +38,25 @@ public class Cart {
         this.products = products;
     }
 
-    public double getTotalPrice() {
-        double shume = products.stream().map(Product::getPrice).reduce(0.0, Double::sum);
-
-        return totalPrice + shume;
+    public double getPriceProduct( ) {
+        return pricePerProduct;
     }
+    public double setPriceperProduct(int amount) {
+        double pricePerProduct = products.stream()
+                .mapToDouble(product -> product.getAmount()
+                        * amount)
+                .sum();
+        return pricePerProduct;
+    }
+
+
+    public double getTotalPrice(int amount) {
+        double totalPrice = products.stream()
+                .mapToDouble(product -> product.getPrice() * amount)
+                .sum();
+        return totalPrice;
+    }
+
 
     public void clearProducts() {
         products.clear();

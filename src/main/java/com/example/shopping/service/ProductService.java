@@ -45,8 +45,8 @@ public class ProductService {
         productFind.setDescription(product.getDescription());
         productFind.setCategory(product.getCategory());
         productFind.setPrice(product.getPrice());
+        productFind.setAmount(product.getAmount());
         return productRepository.save(productFind);
-
     }
 
 }

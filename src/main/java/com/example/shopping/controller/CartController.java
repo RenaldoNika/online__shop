@@ -4,6 +4,7 @@ import com.example.shopping.excpetion.ProductException;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Product;
 import com.example.shopping.repository.ProductRepository;
+import com.example.shopping.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,16 +16,19 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public CartController(ProductRepository productRepository) {
+    public CartController(ProductRepository productRepository,
+                          ProductService productService) {
         this.productRepository = productRepository;
+        this.productService = productService;
     }
 
 
     @PostMapping("/add")
     public String addCart(@RequestParam("productId") Long productId,
-                          @RequestParam(value = "category", required = false) String category,
+                          @RequestParam("amount") Integer amount,
                           HttpSession session) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
@@ -35,27 +39,36 @@ public class CartController {
             boolean productExists = cart.getProducts().stream()
                     .anyMatch(existingProduct
                             -> existingProduct.getId()==(product.getId()));
-
             if (productExists) {
                 throw new ProductException("Product already exists in the cart");
             }
+
+            session.setAttribute("amount", amount);
+
+
+            cart.setPriceperProduct(amount);
+            productService.editProduct(productId, product);
             cart.addProduct(product);
             session.setAttribute("cart", cart);
         }
         return "redirect:/shop/online";
     }
 
-
     @GetMapping("/cart")
-    public String showCart(HttpSession session, Model model) {
+    public String showCart(HttpSession session,
+                           Model model) {
         Cart cart = (Cart) session.getAttribute("cart");
 
         if (cart == null) {
             cart = new Cart();
         }
+        Integer amount = (Integer) session.getAttribute("amount");
 
-        model.addAttribute("shumProdukt", cart.getTotalPrice());
+
+        cart.setPriceperProduct(amount);
         model.addAttribute("cart", cart);
+        model.addAttribute("shmPerProdukt", cart.getPriceProduct());
+        model.addAttribute("shumProdukt", cart.getTotalPrice(amount));
         return "cart";
     }
 
@@ -70,6 +83,5 @@ public class CartController {
         }
         return "redirect:/cart/cart";
     }
-
 
 }
