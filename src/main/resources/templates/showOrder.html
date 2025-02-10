@@ -65,14 +65,15 @@
 
     <div class="order-info">
         <form action="/order/getOrder" method="get">
-            <div class="product">
-                <p><strong>Status:</strong> <span>Order Status</span></p>
-                <p><strong>Product:</strong> <span>Product Name</span></p>
-                <p><strong>Total Amount:</strong> $<span>Total Amount</span></p>
-                <p><strong>Address:</strong> <span>Shipping Address</span></p>
+            <div th:each="order : ${order}" class="product">
+        <p><strong>Status:</strong> <span th:text="${order.statusOrder}">Order Status</span></p>
+        <p><strong>Product:</strong> <span th:text="${order.productName}">Product Name</span></p>
+        <p><strong>Total Amount:</strong> $<span th:text="${order.totalAmount}">Total Amount</span></p>
+        <p><strong>Address:</strong> <span th:text="${order.address}">Shipping Address</span></p>
+                <p>Data e Porosis: <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+
+
             </div>
-        </form>
-    </div>
 
     <a href="/shop/online" class="back-button">Back to Home</a>
 </div>

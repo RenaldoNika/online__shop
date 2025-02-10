@@ -5,6 +5,8 @@ import com.example.shopping.model.enumRole.CategoryProduct;
 import com.example.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +19,20 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
+
+    public List<Product> filterByPrice(double price) {
+        List<Product>products=productRepository.findAll();
+        List<Product>filteredProducts=new ArrayList<>();
+        for (Product product:products) {
+            if (product.getPrice()<=price) {
+                filteredProducts.add(product);
+            }
+
+        }
+        return filteredProducts;
+    }
+
 
     public Product save(Product product) {
         return productRepository.save(product);
@@ -40,6 +56,7 @@ public class ProductService {
     }
 
     public Product editProduct(long id, Product product) {
+
         Product productFind = productRepository.findById(id).get();
         productFind.setName(product.getName());
         productFind.setDescription(product.getDescription());

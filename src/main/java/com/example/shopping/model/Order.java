@@ -3,6 +3,8 @@ package com.example.shopping.model;
 import com.example.shopping.model.enumRole.StatusOrder;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,6 +14,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    private LocalDateTime orderDate=LocalDateTime.now();
+
+    private String formattedOrderDate;
 
     private String address;
 
@@ -85,5 +91,19 @@ public class Order {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setFormattedOrderDate(String formattedOrderDate) {
+        this.formattedOrderDate = formattedOrderDate;
+    }
+    public String getFormattedOrderDate() {
+        return formattedOrderDate;
     }
 }

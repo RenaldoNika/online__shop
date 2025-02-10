@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,9 @@ public class OrderController {
                 .collect(Collectors.toList());
 
         Integer amount=(Integer) session.getAttribute("amount");
+        if (amount == null) {
+            amount = 1;
+        }
 
         double totalAmount=cart.getTotalPrice(amount);
 
@@ -72,6 +76,12 @@ public class OrderController {
 
     @GetMapping("getOrder")
     public String viewOrder(Model model) {
+        List<Order> orders = orderService.findAll();
+
+        for (Order order : orders) {
+            order.setFormattedOrderDate
+                    (order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
         model.addAttribute("order",orderService.findAll());
         return "showOrder";
     }
@@ -88,6 +98,7 @@ public class OrderController {
             cart = new Cart();
         }
         Integer amount=(Integer) session.getAttribute("amount");
+
 
         List<Product> products = cart.getProducts();
         List<String> productNames = products.stream()

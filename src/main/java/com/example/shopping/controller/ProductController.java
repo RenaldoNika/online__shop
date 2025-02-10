@@ -30,6 +30,14 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping("/filterPrice")
+    public String filterPrice(Model model,@RequestParam("price")double price) {
+       List<Product>products= productService.filterByPrice(price);
+       model.addAttribute("productsPrice", products);
+       return "productPrice";
+
+    }
+
     @GetMapping("/add")
     public String all(Model model) {
         model.addAttribute("product", new Product());

@@ -68,6 +68,21 @@
         .status-option {
             background-color: yellow;
         }
+
+        /* Style for the delete button */
+        .delete-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #e74c3c; /* Red color */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
     </style>
 </head>
 <body>
@@ -79,6 +94,7 @@
             <h2>Numri i Telefonit: <span th:text="${order.phoneNumber}"></span></h2>
             <h2>Statusi i Porosisë: <span th:text="${order.statusOrder}"></span></h2>
             <h2>Shuma Totale: <span th:text="${order.totalAmount}"></span></h2>
+            <p>Data e Porosis: <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
         </div>
 
         <form action="/order/status" method="post">
