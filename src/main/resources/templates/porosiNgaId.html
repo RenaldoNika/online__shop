@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Admin</title>
+</head>
+<body>
+
+<h1>Lista e Porosive</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Data e Porosisë</th>
+    <th>Statusi</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr th:each="order : ${order}">
+    <td th:text="${order.id}">ID</td>
+    <td th:text="${order.orderDate}">Data e Porosisë</td>
+    <td th:text="${order.statusOrder}">Statusi</td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
