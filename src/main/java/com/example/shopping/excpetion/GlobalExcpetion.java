@@ -4,13 +4,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+
+
 @ControllerAdvice
 public class GlobalExcpetion {
 
     @ExceptionHandler(ProductException.class)
-    public String personhandler(ProductException ex
+    public String productHandler(ProductException ex
             , Model model) {
         model.addAttribute("message", ex.getMessage());
         return "exceptionProduct";
     }
+
+    @ExceptionHandler(OrderException.class)
+    public String orderHandler(OrderException ex
+            , Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "exceptionOrder";
+    }
+
 }

@@ -70,6 +70,7 @@
         <p><strong>Product:</strong> <span th:text="${order.productName}">Product Name</span></p>
         <p><strong>Total Amount:</strong> $<span th:text="${order.totalAmount}">Total Amount</span></p>
         <p><strong>Address:</strong> <span th:text="${order.address}">Shipping Address</span></p>
+        <p><strong>Order Id:</strong> <span th:text="${order.OrderId}">Order Id</span></p>
                 <p>Data e Porosis: <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
 
 

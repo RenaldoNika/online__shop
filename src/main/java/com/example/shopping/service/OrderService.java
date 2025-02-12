@@ -1,5 +1,6 @@
 package com.example.shopping.service;
 
+import com.example.shopping.excpetion.OrderException;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
@@ -47,5 +48,9 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public Order kerkoNgaId(String porosiID){
+       return orderRepository.findByOrderId(porosiID).orElseThrow(()->
+                 new OrderException("Order not found"));
+    }
 
 }

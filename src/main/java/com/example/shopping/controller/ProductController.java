@@ -2,11 +2,14 @@ package com.example.shopping.controller;
 
 import com.example.shopping.model.Product;
 import com.example.shopping.model.enumRole.CategoryProduct;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+
 import com.example.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,10 +34,11 @@ public class ProductController {
     }
 
     @GetMapping("/filterPrice")
-    public String filterPrice(Model model,@RequestParam("price")double price) {
-       List<Product>products= productService.filterByPrice(price);
-       model.addAttribute("productsPrice", products);
-       return "productPrice";
+    public String filterPrice(Model model, @RequestParam("price") double price) {
+
+        List<Product> products = productService.filterByPrice(price);
+        model.addAttribute("productsPrice", products);
+        return "productPrice";
 
     }
 
@@ -52,7 +56,7 @@ public class ProductController {
 
     @PostMapping("/post")
     public String post(@ModelAttribute Product product,
-                       @RequestParam("file")MultipartFile file) {
+                       @RequestParam("file") MultipartFile file) {
 
         try {
             Path uploadPath = Paths.get(uploadDir);
@@ -86,14 +90,14 @@ public class ProductController {
     }
 
     @PostMapping("update/{id}")
-    public String update(@PathVariable long id,Product product) {
+    public String update(@PathVariable long id, Product product) {
         productService.editProduct(id, product);
         return "redirect:/products/update";
     }
 
     @GetMapping("/category")
     public String getByCategory(@RequestParam(value = "category", required = false)
-                                    String category,
+                                String category,
                                 Model model) {
 
         List<Product> products;

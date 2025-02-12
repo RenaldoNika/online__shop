@@ -88,6 +88,16 @@
 <body>
 
 <div class="container">
+
+    <div class="search-form">
+        <form action="/order/kerkoIdPorosie" method="get">
+            <label for="orderId">Search by Order ID:</label>
+            <input type="text" name="idOrder" id="orderId" placeholder="Enter Order ID" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+
     <div th:each="order : ${orders}" class="product">
         <div>
             <h2>Adresa: <span th:text="${order.address}"></span></h2>
@@ -103,13 +113,15 @@
             <select name="status">
                 <option value=""></option>
                 <option value="PRITJE" th:value="PRITJE" th:selected="${order.statusOrder == 'PRITJE'}">PRITJE</option>
-                <option value="KONFIMUAR" th:value="KONFIMUAR" th:selected="${order.statusOrder == 'KONFIMUAR'}" class="status-option">KONFIMUAR</option>
+                <option value="KONFIMUAR" th:value="KONFIMUAR" th:selected="${order.statusOrder == 'KONFIMUAR'}"
+                        class="status-option">KONFIMUAR
+                </option>
             </select>
 
             <button type="submit">Ndrysho Statusin</button>
         </form>
 
-        <form  th:action="@{/order/delete/{idOrder}(idOrder=${order.id})}" method="post">
+        <form th:action="@{/order/delete/{idOrder}(idOrder=${order.id})}" method="post">
             <input type="hidden" name="_method" value="DELETE"/>
             <button type="submit" class="delete-button">Fshi Porosinë</button>
         </form>

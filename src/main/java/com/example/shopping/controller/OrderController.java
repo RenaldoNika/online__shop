@@ -135,5 +135,14 @@ public class OrderController {
         return "redirect:/admin/home";
     }
 
+    @GetMapping("/kerkoIdPorosie")
+    public String kerkoIdPorosie(@RequestParam("idOrder") String idOrder, Model model) {
+        Order order = orderService.kerkoNgaId(idOrder);
+        model.addAttribute("order", order);
+        return "porosiNgaId";
+    }
+
+    
+
 
 }
