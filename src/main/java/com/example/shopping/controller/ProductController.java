@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-
 import com.example.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +38,13 @@ public class ProductController {
         model.addAttribute("productsPrice", products);
         return "productPrice";
 
+    }
+
+    @GetMapping("/filterByName")
+    public String filterByName(Model model, @RequestParam("name") String name) {
+       List<Product>productList=productService.getByName(name);
+       model.addAttribute("productList", productList);
+       return "home";
     }
 
     @GetMapping("/add")

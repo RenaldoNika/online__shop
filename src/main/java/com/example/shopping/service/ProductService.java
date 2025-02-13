@@ -50,6 +50,9 @@ public class ProductService {
     public List<Product> getByCategory(CategoryProduct categoryProduct) {
         return productRepository.findByCategory(categoryProduct);
     }
+    public List<Product>getByName(String name){
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();

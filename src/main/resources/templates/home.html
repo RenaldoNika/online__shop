@@ -144,6 +144,36 @@
     </div>
 
 
+    <form method="GET" action="/products/filterByName">
+        <label for="name">Search by Name: </label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Filter</button>
+    </form>
+
+    <h2>Filtered Products:</h2>
+    <div>
+        <ul>
+            <th:block th:each="product : ${productList}">
+                <li>
+                    <h3 th:text="${product.name}"></h3>
+                    <p th:text="${product.description}"></p>
+                    <p th:text="${product.price}"></p>
+                    <form action="/cart/add" method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}"/>
+
+                        <label for="amount">Sasia:</label>
+                        <input type="number" name="amount" id="amount" min="1" th:max="${product.amount}" value="1" />
+
+
+                        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                    </form>
+                </li>
+
+
+            </th:block>
+        </ul>
+    </div>
+
 
 
     <div class="product-container">
