@@ -158,6 +158,8 @@
                     <h3 th:text="${product.name}"></h3>
                     <p th:text="${product.description}"></p>
                     <p th:text="${product.price}"></p>
+                    <img th:src="@{'/uploads/' + ${product.imageUrl}}" alt="Foto e produktit" width="200" />
+
                     <form action="/cart/add" method="post">
                         <input type="hidden" name="productId" th:value="${product.id}"/>
 

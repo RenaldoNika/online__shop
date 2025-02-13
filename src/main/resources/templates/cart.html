@@ -131,6 +131,8 @@
             <h2 th:text="${product.name}"></h2>
             <p th:text="${product.description}"></p>
             <p class="price" th:text="'$' + ${product.price}"></p>
+            <img th:src="@{'/uploads/' + ${product.imageUrl}}" alt="Foto e produktit" width="200" />
+
             <h3>Sasia : <span th:text="${sasia}"></span></h3>
 
 
