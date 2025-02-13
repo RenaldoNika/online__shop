@@ -3,6 +3,7 @@ package com.example.shopping.controller;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
+import com.example.shopping.model.enumRole.AdressaQytet;
 import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.service.OrderService;
 import com.example.shopping.service.ProductService;
@@ -90,6 +91,7 @@ public class OrderController {
     public String checkout(HttpSession session,
                            @RequestParam("address") String address,
                            @RequestParam("phoneNumber") String phoneNumber,
+                           @RequestParam("adressaQytet")String adressaQytet,
                            Model model) {
         Order order = new Order();
 
@@ -107,10 +109,14 @@ public class OrderController {
 
         double totalAmount = cart.getTotalPrice(amount);
 
+
+        AdressaQytet qyteti = AdressaQytet.valueOf(adressaQytet.toUpperCase());
+
         order.setProductName(productNames);
         order.setTotalAmount(totalAmount);
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
+        order.setAdressaQytet(qyteti);
 
         double amountOrder = order.getTotalAmount(); //shuma totale qe do ruhet ne order
 
@@ -124,9 +130,10 @@ public class OrderController {
         cart.clearProducts();
         orderService.save(order);
         model.addAttribute("productNames", productNames);
+        model.addAttribute("order", order);
         model.addAttribute("totalAmountOrder", amountOrder);
 
-        return "redirect:/shop/online";
+        return "orderConfirmation";
     }
 
     @PostMapping("/delete/{idOrder}")

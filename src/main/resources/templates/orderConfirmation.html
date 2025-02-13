@@ -1,11 +1,95 @@
-<h1>Order Confirmation</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-<p>Porosia juaj u krye!</p>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
 
-<h3>Order Summary:</h3>
-<ul>
-    <li th:each="productName : ${order.productName}" th:text="${productName}"></li>
-</ul>
-<p>Shuma Totale: $<span th:text="${order.totalAmount}"></span></p>
-<p>Adresa: <span th:text="${order.address}"></span></p>
-<p>Numer telefoni: <span th:text="${order.phoneNumber}"></span></p>
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .total {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .address, .phone, .city {
+            color: #555;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Porosia juaj u krye!</h1>
+
+    <h3>Order Summary:</h3>
+    <ul>
+        <li th:each="productName : ${order.productName}" th:text="${productName}"></li>
+    </ul>
+
+    <p class="total">Shuma Totale: $<span th:text="${order.totalAmount}"></span></p>
+    <p class="address">Adresa: <span th:text="${order.address}"></span></p>
+    <p class="phone">Numer telefoni: <span th:text="${order.phoneNumber}"></span></p>
+    <p class="city">Qyteti: <span th:text="${order.adressaQytet}"></span></p>
+
+    <a href="/shop/online" class="back-link">Back to Home</a>
+</div>
+</body>
+</html>

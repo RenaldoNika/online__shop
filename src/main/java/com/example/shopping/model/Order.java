@@ -1,5 +1,6 @@
 package com.example.shopping.model;
 
+import com.example.shopping.model.enumRole.AdressaQytet;
 import com.example.shopping.model.enumRole.StatusOrder;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
@@ -21,6 +22,8 @@ public class Order {
     private LocalDateTime orderDate=LocalDateTime.now();
 
     private String formattedOrderDate;
+
+    private AdressaQytet adressaQytet;
 
     private String address;
 
@@ -112,5 +115,13 @@ public class Order {
 
     public String getOrderId() {
         return orderId;
+    }
+
+    public AdressaQytet getAdressaQytet() {
+        return adressaQytet;
+    }
+
+    public void setAdressaQytet(AdressaQytet adressaQytet) {
+        this.adressaQytet = adressaQytet;
     }
 }
