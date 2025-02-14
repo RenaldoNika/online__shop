@@ -3,15 +3,20 @@ package com.example.shopping.controller;
 import com.example.shopping.model.Cart;
 import com.example.shopping.model.Order;
 import com.example.shopping.model.Product;
+import com.example.shopping.model.User;
 import com.example.shopping.model.enumRole.AdressaQytet;
 import com.example.shopping.model.enumRole.StatusOrder;
+import com.example.shopping.repository.UserRepository;
 import com.example.shopping.service.OrderService;
 import com.example.shopping.service.ProductService;
+import com.example.shopping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,12 +28,15 @@ public class OrderController {
 
     private OrderService orderService;
     private ProductService productService;
+    private UserRepository userRepository;
 
     @Autowired
     public OrderController(OrderService orderService,
+                           UserRepository userRepository,
                            ProductService productService) {
         this.orderService = orderService;
         this.productService = productService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/cart")
@@ -52,12 +60,12 @@ public class OrderController {
                 .map(Product::getName)
                 .collect(Collectors.toList());
 
-        Integer amount=(Integer) session.getAttribute("amount");
+        Integer amount = (Integer) session.getAttribute("amount");
         if (amount == null) {
             amount = 1;
         }
 
-        double totalAmount=cart.getTotalPrice(amount);
+        double totalAmount = cart.getTotalPrice(amount);
 
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmount", totalAmount);
@@ -66,13 +74,13 @@ public class OrderController {
     }
 
     @PostMapping("/status")
-    public String status(long id,String status){
-       Order order= orderService.findById(id);
-       StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
+    public String status(long id, String status) {
+        Order order = orderService.findById(id);
+        StatusOrder statusOrder = StatusOrder.valueOf(status.toUpperCase());
 
-       order.setStatusOrder(statusOrder);
-       orderService.save(order);
-       return "redirect:/admin/home";
+        order.setStatusOrder(statusOrder);
+        orderService.save(order);
+        return "redirect:/admin/home";
     }
 
     @GetMapping("getOrder")
@@ -83,7 +91,7 @@ public class OrderController {
             order.setFormattedOrderDate
                     (order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         }
-        model.addAttribute("order",orderService.findAll());
+        model.addAttribute("order", orderService.findAll());
         return "showOrder";
     }
 
@@ -91,7 +99,7 @@ public class OrderController {
     public String checkout(HttpSession session,
                            @RequestParam("address") String address,
                            @RequestParam("phoneNumber") String phoneNumber,
-                           @RequestParam("adressaQytet")String adressaQytet,
+                           @RequestParam("adressaQytet") String adressaQytet,
                            Model model) {
         Order order = new Order();
 
@@ -99,7 +107,7 @@ public class OrderController {
         if (cart == null) {
             cart = new Cart();
         }
-        Integer amount=(Integer) session.getAttribute("amount");
+        Integer amount = (Integer) session.getAttribute("amount");
 
 
         List<Product> products = cart.getProducts();
@@ -111,12 +119,17 @@ public class OrderController {
 
 
         AdressaQytet qyteti = AdressaQytet.valueOf(adressaQytet.toUpperCase());
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).get();
+
+
 
         order.setProductName(productNames);
         order.setTotalAmount(totalAmount);
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
         order.setAdressaQytet(qyteti);
+        order.setUser(user);
 
         double amountOrder = order.getTotalAmount(); //shuma totale qe do ruhet ne order
 
@@ -137,7 +150,7 @@ public class OrderController {
     }
 
     @PostMapping("/delete/{idOrder}")
-    public String delete(@PathVariable ("idOrder") long idOrder) {
+    public String delete(@PathVariable("idOrder") long idOrder) {
         orderService.delete(idOrder);
         return "redirect:/admin/home";
     }
@@ -148,8 +161,6 @@ public class OrderController {
         model.addAttribute("order", order);
         return "porosiNgaId";
     }
-
-    
 
 
 }

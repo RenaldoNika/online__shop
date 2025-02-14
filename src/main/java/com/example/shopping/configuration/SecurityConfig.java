@@ -34,14 +34,13 @@ public class SecurityConfig {
                         .requestMatchers("/products/filterByName").permitAll()
                         .requestMatchers("/user/signup").permitAll()
                         .requestMatchers("/user/register").permitAll()
-                        .requestMatchers("/order/**").hasRole("user")
-                        .requestMatchers("/admin/home").hasRole("ADMIN")
+                        .requestMatchers("/order/**").permitAll()
+                        .requestMatchers("/admin/home").permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(form->
                         form.successHandler(userAuthenticationSuccesHandler)
                                 .permitAll()
                 )
-
                 .logout(out -> out
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
