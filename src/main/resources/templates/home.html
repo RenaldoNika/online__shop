@@ -72,6 +72,23 @@
             margin-bottom: 15px;
         }
 
+        .go-to-signup-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .go-to-signup-btn:hover {
+            background-color: #007BB5;
+        }
+
         .add-to-cart-btn {
             background-color: #4CAF50;
             color: white;
@@ -125,6 +142,9 @@
 <div class="container">
     <h1>Our Products</h1>
 
+    <p>Welcome : <span th:text="${nameUser}"></span></p>
+
+
     <div>
         <form action="/products/filterPrice" method="get">
             <label for="price">Filter by Price:</label>
@@ -132,6 +152,10 @@
             <button type="submit">Filter</button>
         </form>
     </div>
+
+    <a href="/user/signup">
+        <button type="button">Go to Signup</button>
+    </a>
 
 
     <div class="category-select">

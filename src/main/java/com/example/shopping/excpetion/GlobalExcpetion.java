@@ -23,4 +23,11 @@ public class GlobalExcpetion {
         return "exceptionOrder";
     }
 
+    @ExceptionHandler(UserException.class)
+    public String orderHandler(UserException ex
+            , Model model) {
+        model.addAttribute("message", ex.getMessage());
+        return "exceptionUser";
+    }
+
 }

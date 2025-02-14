@@ -27,9 +27,10 @@ public class PersonDetails implements UserDetailsService {
         Optional<User>userOptional=userRepository.findByUsername(username);
 
         User user = userOptional.orElseThrow(()
-                -> new UserException("User Not Found"));
+                -> new UserException("Perdoruesi nuk egziston"));
 
-        return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+        return org.springframework.security.core.userdetails.User.withUsername(
+                user.getUsername())
                 .password(user.getPassword())
                 .roles(user.getRole().name())
                 .build();

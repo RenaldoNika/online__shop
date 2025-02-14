@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -24,9 +26,12 @@ public class UserService {
     }
 
     public User saveUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            throw new UserException("Username already exists");
-        }
+       Optional<User> user1= userRepository.findByUsername(user.getUsername());
+
+       if (user1.isPresent()) {
+           throw new UserException(user.getUsername()+" already exists");
+       }
+
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         return userRepository.save(user);
