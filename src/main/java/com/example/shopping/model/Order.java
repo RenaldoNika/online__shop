@@ -21,6 +21,7 @@ public class Order {
 
     private LocalDateTime orderDate=LocalDateTime.now();
 
+    @Transient
     private String formattedOrderDate;
 
     private AdressaQytet adressaQytet;
