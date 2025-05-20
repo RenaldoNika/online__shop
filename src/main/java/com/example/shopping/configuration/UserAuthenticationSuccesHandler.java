@@ -19,13 +19,14 @@ public class UserAuthenticationSuccesHandler implements AuthenticationSuccessHan
                                         Authentication authentication)
             throws IOException, ServletException {
 
-        for (GrantedAuthority a : authentication.getAuthorities()) {
-            if ("ROLES_USER".equals(a.getAuthority())) {
-                response.sendRedirect("/shop/online");
-                System.out.println(a.getAuthority());
-                return;
-            }
-        }
+//        for (GrantedAuthority a : authentication.getAuthorities()) {
+//
+//            if ("ROLES_USER".equals(a.getAuthority())) {
+//                response.sendRedirect("/shop/online");
+//                System.out.println(a.getAuthority());
+//                return;
+//            }
+//        }
         response.sendRedirect("/shop/online");
     }
 
