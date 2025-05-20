@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regjistrohu</title>
+</head>
+<body>
+<h1>Regjistrohu</h1>
+<form th:action="@{/user/register}" method="post" th:object="${user}">
+    <label for="username">Emri i Përdoruesit:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Fjalëkalimi:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+<!--    <label for="role">Roli:</label>-->
+<!--    <select id="role" name="role" required>-->
+<!--        <option value="user">User</option>-->
+<!--        <option value="admin">Admin</option>-->
+<!--    </select><br><br>-->
+
+    <button type="submit">Regjistrohu</button>
+</form>
+</body>
+</html>
