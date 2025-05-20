@@ -41,6 +41,7 @@ public class Cart {
     public double getPriceProduct( ) {
         return pricePerProduct;
     }
+
     public double setPriceperProduct(int amount) {
         double pricePerProduct = products.stream()
                 .mapToDouble(product -> product.getAmount()
