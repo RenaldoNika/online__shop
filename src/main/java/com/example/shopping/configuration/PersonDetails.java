@@ -32,7 +32,7 @@ public class PersonDetails implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.withUsername(
                 user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles("user")
                 .build();
     }
 
