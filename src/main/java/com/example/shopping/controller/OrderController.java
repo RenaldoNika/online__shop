@@ -12,10 +12,16 @@ import com.example.shopping.service.ProductService;
 import com.example.shopping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -47,7 +53,9 @@ public class OrderController {
     }
 
     @GetMapping("/create")
-    public String create(HttpSession session, Model model) {
+    public String create(
+            HttpSession session,
+            Model model) {
 
         Cart cart = (Cart) session.getAttribute("cart");
 
@@ -66,7 +74,6 @@ public class OrderController {
         }
 
         double totalAmount = cart.getTotalPrice(amount);
-
         model.addAttribute("productNames", productNames);
         model.addAttribute("totalAmount", totalAmount);
 
@@ -97,10 +104,15 @@ public class OrderController {
 
     @PostMapping("/orderCheck")
     public String checkout(HttpSession session,
+                           @RequestParam ("cvv")String cvv,
+                           @RequestParam ("cardNumber")String cardNumber,
+                           @RequestParam ("expirationDate")String expirationDate,
                            @RequestParam("address") String address,
                            @RequestParam("phoneNumber") String phoneNumber,
                            @RequestParam("adressaQytet") String adressaQytet,
                            Model model) {
+        System.out.println("HYRI NE ordeerchechk");
+
         Order order = new Order();
 
         Cart cart = (Cart) session.getAttribute("cart");
@@ -117,12 +129,42 @@ public class OrderController {
 
         double totalAmount = cart.getTotalPrice(amount);
 
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8081/accounts/check";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        // Parametrat për body
+        String body = "cvv=" + cvv +
+                "&cardNumber=" + cardNumber +
+                "&expirationDate=" + expirationDate +
+                "&shuma=" + totalAmount;
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class
+            );
+
+            model.addAttribute("successMessage", response.getBody());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            System.out.println("Gabim nga sherbimi i kartes: " + e.getResponseBodyAsString());
+
+            model.addAttribute("error", "Gabim nga shërbimi i kartës: " + e.getResponseBodyAsString());
+            return "createOrder";
+        } catch (Exception e) {
+            model.addAttribute("error", "Gabim gjatë lidhjes me shërbimin e pagesës.");
+            return "createOrder";
+        }
 
         AdressaQytet qyteti = AdressaQytet.valueOf(adressaQytet.toUpperCase());
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).get();
-
-
 
         order.setProductName(productNames);
         order.setTotalAmount(totalAmount);
@@ -139,7 +181,6 @@ public class OrderController {
             product.setAmount(newAmount);
             productService.save(product);
         });
-
         cart.clearProducts();
         orderService.save(order);
         model.addAttribute("productNames", productNames);

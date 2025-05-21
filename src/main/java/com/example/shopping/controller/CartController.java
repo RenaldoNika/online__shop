@@ -46,7 +46,7 @@ public class CartController {
             session.setAttribute("amount", amount);
 
             cart.setPriceperProduct(amount);
-            productService.editProduct(productId, product);
+            productService.editProduct(productId, product); //zbret sasin per produkt
             cart.addProduct(product);
             session.setAttribute("cart", cart);
         }
