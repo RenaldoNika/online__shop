@@ -8,20 +8,19 @@ import com.example.shopping.model.enumRole.AdressaQytet;
 import com.example.shopping.model.enumRole.StatusOrder;
 import com.example.shopping.repository.UserRepository;
 import com.example.shopping.service.OrderService;
+import com.example.shopping.service.PaymentService;
 import com.example.shopping.service.ProductService;
-import com.example.shopping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,14 +34,17 @@ public class OrderController {
     private OrderService orderService;
     private ProductService productService;
     private UserRepository userRepository;
+    private PaymentService paymentService;
 
     @Autowired
     public OrderController(OrderService orderService,
+                           PaymentService paymentService,
                            UserRepository userRepository,
                            ProductService productService) {
         this.orderService = orderService;
         this.productService = productService;
         this.userRepository = userRepository;
+        this.paymentService=paymentService;
     }
 
     @GetMapping("/cart")
@@ -129,32 +131,10 @@ public class OrderController {
 
         double totalAmount = cart.getTotalPrice(amount);
 
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8081/accounts/check";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        // Parametrat për body
-        String body = "cvv=" + cvv +
-                "&cardNumber=" + cardNumber +
-                "&expirationDate=" + expirationDate +
-                "&shuma=" + totalAmount;
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
-
         try {
-            ResponseEntity<String> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.POST,
-                    requestEntity,
-                    String.class
-            );
-
-            model.addAttribute("successMessage", response.getBody());
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            System.out.println("Gabim nga sherbimi i kartes: " + e.getResponseBodyAsString());
-
+            String result = paymentService.checkPayment(cvv, cardNumber, expirationDate, totalAmount);
+            model.addAttribute("successMessage", result);
+        } catch (WebClientResponseException e) {
             model.addAttribute("error", "Gabim nga shërbimi i kartës: " + e.getResponseBodyAsString());
             return "createOrder";
         } catch (Exception e) {
