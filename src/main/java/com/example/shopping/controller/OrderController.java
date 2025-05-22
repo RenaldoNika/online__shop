@@ -12,16 +12,11 @@ import com.example.shopping.service.PaymentService;
 import com.example.shopping.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -131,15 +126,12 @@ public class OrderController {
 
         double totalAmount = cart.getTotalPrice(amount);
 
+
         try {
-            String result = paymentService.checkPayment(cvv, cardNumber, expirationDate, totalAmount);
-            model.addAttribute("successMessage", result);
-        } catch (WebClientResponseException e) {
-            model.addAttribute("error", "Gabim nga shërbimi i kartës: " + e.getResponseBodyAsString());
-            return "createOrder";
-        } catch (Exception e) {
-            model.addAttribute("error", "Gabim gjatë lidhjes me shërbimin e pagesës.");
-            return "createOrder";
+            paymentService.checkPayment(cvv, cardNumber, expirationDate, totalAmount);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "paymentError";
         }
 
         AdressaQytet qyteti = AdressaQytet.valueOf(adressaQytet.toUpperCase());
